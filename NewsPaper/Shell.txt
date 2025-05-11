@@ -1,27 +1,27 @@
 1 Создание пользователей:
 from django.contrib.auth.models import User
-user1 = User.objects.create_user(username='Maxim', password='123')
-user2 = User.objects.create_user(username='Alexey', password='1234')
+user1 = User.objects.create_user(username='Cocos', password='123')
+user2 = User.objects.create_user(username='Ananas', password='1234')
 
 2 Создание авторов:
 author1 = Author.objects.create(user = user1)
 author2 = Author. objects.create(user = user2)
 
 3 Создание категорий:
-cat1 = Category.objects.create(name='Политика')
-cat2 = Category.objects.create(name='Спорт')
-cat3 = Category.objects.create(name='Образование')
-cat4 = Category.objects.create(name='Культура')
+cat1 = Category.objects.create(name_category='Политика')
+cat2 = Category.objects.create(name_category='Спорт')
+cat3 = Category.objects.create(name_category='Образование')
+cat4 = Category.objects.create(name_category='Культура')
 
 4 Создание постов:
-article1 = Post.objects.create(author=author1, type='article', title='Первая статья', content='Это первая статья.', rating=0)
-article2 = Post.objects.create(author=author2, type='article', title='Вторая статья', content='Это вторая статья.', rating=0)
-news1 = Post.objects.create(author=author1, type='news', title='Новости', content='Информация о последних событиях', rating=0)
+article1 = Post.objects.create(author=author1, post_type='AR', title='Первая статья', text_post='Это первая статья.', rating=0)
+article2 = Post.objects.create(author=author2, post_type='AR', title='Вторая статья', text_post='Это вторая статья.', rating=0)
+news1 = Post.objects.create(author=author1, post_type='NW', title='Новости', text_post='Информация о последних событиях.', rating=0)
 
 # Присваиваем категории
-article1.categories.add(cat1)
-article2.categories.add(cat2)
-news1.categories.add(cat3, cat4)
+article1.category.add(cat1)
+article2.category.add(cat2)
+news1.category.add(cat3, cat4)
 
 5 Создание комментариев:
 comment1 = Comment.objects.create(post=article1, user=user1, comment='Первый коммент.')
@@ -31,11 +31,12 @@ comment4 = Comment.objects.create(post=article1, user=user2, comment='Четвё
 
 6 Корректировка рейтинга:
 article1.like()
-article2.dislike()
+article2.like()
+article1.dislike()
 news1.like()
 
 comment1.like()
-comment2.dislike()
+comment1.dislike()
 comment3.like()
 comment4.like()
 
@@ -45,7 +46,7 @@ author2.update_rating()
 
 8. Вывод лучшего пользователя:
 best_user = Author.objects.all().order_by('-rating').first()
-print(f'' Лучший пользователь: {best_user.username}, Рейтинг: {best_user.author.rating}'')
+print(f"Лучший пользователь: {best_user.user.username}")
 
 9 Вывод лучшей статьи:
 best_post = Post.objects.all().order_by('-rating').first()
@@ -56,6 +57,6 @@ print(f"Заголовок: {best_post.title}")
 print(f"Превью: {best_post.preview()}")
 
 10 Вывод всех комментариев:
-comments =  Comment.objects.filter(posts=best_post)
-for comment in comments:
-    print(f"Дата: {comment.create_time_comment}, Пользователь: {comment.user.username}, Рейтинг: {comment.rating_comment}, Текст: {comment.text_comment}")
+comments =  Comment.objects.filter(post=best_post)
+for c in comments:
+    print(f"Дата: {c.comment_date}, Пользователь: {c.user.username}, Рейтинг: {c.rating}, Текст: {c.comment}")
